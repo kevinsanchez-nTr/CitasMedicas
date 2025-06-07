@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 02-06-2025 a las 03:40:06
+-- Tiempo de generación: 07-06-2025 a las 09:15:31
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.1.10
 
@@ -211,7 +211,15 @@ INSERT INTO `multifactor_tokens` (`id_multifactor_tokens`, `usuario_id`, `token`
 (28, 3, '250007', '2025-06-01 20:31:59', 1),
 (29, 2, '106678', '2025-06-01 20:34:20', 1),
 (30, 2, '881763', '2025-06-01 20:43:28', 1),
-(31, 2, '731848', '2025-06-01 21:19:00', 1);
+(31, 2, '731848', '2025-06-01 21:19:00', 1),
+(32, 2, '143070', '2025-06-03 08:55:26', 1),
+(33, 2, '487107', '2025-06-03 09:03:43', 1),
+(34, 2, '954045', '2025-06-03 09:05:52', 1),
+(35, 2, '846342', '2025-06-03 09:09:33', 1),
+(36, 10, '461586', '2025-06-03 10:56:04', 1),
+(37, 2, '247504', '2025-06-03 18:37:30', 1),
+(38, 2, '445912', '2025-06-03 18:43:42', 1),
+(39, 2, '941688', '2025-06-03 18:49:35', 1);
 
 -- --------------------------------------------------------
 
@@ -249,7 +257,10 @@ CREATE TABLE `pacientes` (
 
 INSERT INTO `pacientes` (`id_pacientes`, `usuario_id`, `fecha_nacimiento`, `grupo_sanguineo`, `activo`) VALUES
 (1, 3, '2001-12-30', 'A+', 1),
-(5, 7, '2018-01-01', 'AB-', 1);
+(5, 7, '2018-01-01', 'O+', 1),
+(6, 8, NULL, NULL, 1),
+(7, 9, NULL, NULL, 1),
+(8, 11, '2025-06-03', 'AB+', 0);
 
 -- --------------------------------------------------------
 
@@ -308,9 +319,13 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuarios`, `nombre_completo`, `correo`, `telefono`, `direccion`, `password`, `rol_id`, `activo`, `fecha_registro`) VALUES
-(2, 'Kevin Edgardo Sánchez Martínez', 'kevinedgardosanchezmartinez@gmail.com', '71234561', 'km13', '$2y$10$gdbntFq0eDn7oh5xK52rm.M4dbCtmY4zb9xtDmEOz/D.rFpe/.Rjq', 1, 1, '2025-05-18 22:26:27'),
+(2, 'Kevin Edgardo Sánchez Martínez', 'kevinedgardosanchezmartinez@gmail.com', '71234561', 'km13', '$2y$10$O3lmGAsme/EyBXLt1YAKW.dqoZiIaB3Eaq7sjVqzhTZR6EOWRxhgi', 1, 1, '2025-05-18 22:26:27'),
 (3, 'Christopher Enrique López Castro', 'chrispherenrique111@gmail.com', '12345678', '25 de noviembre UPES', '$2y$10$kwexaneB5Z40vVvfMdsYS.1jywQ4JL.jzJ1i9IuFXx7NQw0ZBwtEu', 3, 1, '2025-05-18 23:15:33'),
-(7, 'Juan José Quintanilla Vanegas', 'chrispherenrique@gmail.com', '71234569', 'km12', '$2y$10$nM4tYQb.FlT0cN0TsLOMI.rGQ0ojAlcm7yILOhBPljZ1f8UqTy0sa', 3, 1, '2025-06-01 21:20:10');
+(7, 'Juan José Quintanilla Vanegas', 'chrispherenrique@gmail.com', '71234569', 'km12', '$2y$10$nM4tYQb.FlT0cN0TsLOMI.rGQ0ojAlcm7yILOhBPljZ1f8UqTy0sa', 3, 1, '2025-06-01 21:20:10'),
+(8, 'Pedro Tomas Gonzalez Bonilla', 'pedrogonzalez@gmail.com', '71234569', 'km 90', '$2y$10$QLA2c.aQTMTpswcXojlFOevvsfF4W06K3a8NsWy31.xqdmN84iqRG', 3, 1, '2025-06-03 09:10:34'),
+(9, 'Bartolomeo Simeon Cañas Santamaria', 'simeon@gmail.com', '71234569', 'km 7953', '$2y$10$AuMq1DqomzZiGpKNderniOIzdbbHcyK6ZM5KQlamVcHXsgprTOjpi', 3, 0, '2025-06-03 10:52:20'),
+(10, 'kevin sanchez', 'kevinedgardosanchezmartinez12@gmail.com', '71234569', 'km 41', '$2y$10$qmFnbVNf8/XEReqVRjfg4.mbcYP8mxYmXpZGlfjle7fhXht/Ght06', 1, 0, '2025-06-03 10:55:57'),
+(11, 'Kevin Adonay Molina Gonzalez', 'kevinmolina252627@gmail.com', '71234569', 'km 689', '$2y$10$qzsDi3NfiTMp4YQTSCMNKejCPHe8lpWpZgO.Nt7SvCKo39LXQZ9Vi', 3, 0, '2025-06-03 18:52:09');
 
 --
 -- Índices para tablas volcadas
@@ -502,7 +517,7 @@ ALTER TABLE `medicos`
 -- AUTO_INCREMENT de la tabla `multifactor_tokens`
 --
 ALTER TABLE `multifactor_tokens`
-  MODIFY `id_multifactor_tokens` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_multifactor_tokens` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de la tabla `notificaciones`
@@ -514,7 +529,7 @@ ALTER TABLE `notificaciones`
 -- AUTO_INCREMENT de la tabla `pacientes`
 --
 ALTER TABLE `pacientes`
-  MODIFY `id_pacientes` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_pacientes` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `recetas_medicas`
@@ -532,7 +547,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuarios` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_usuarios` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas

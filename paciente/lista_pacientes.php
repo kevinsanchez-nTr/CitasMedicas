@@ -78,7 +78,7 @@ $resultado = $conn->query($sql);
             <td><span class="badge text-bg-info">Paciente</span></td>
             <td>
               <a href="datos_paciente.php?id=<?= $fila['id_usuarios'] ?>" class="btn btn-sm btn-secondary" title="Datos">
-                <i class="bi bi-eye"></i> Datos
+                <i class="bi bi-eye"></i> Expediente
               </a>
               <a href="editar_paciente.php?id=<?= $fila['id_usuarios'] ?>" class="btn btn-sm btn-warning" title="Editar">
                 <i class="bi bi-pencil-square"></i> Editar
