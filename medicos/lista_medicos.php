@@ -10,15 +10,18 @@ if (!isset($_SESSION['id_usuarios']) || ($_SESSION['rol_id'] ?? null) != 1) {
 
 $sql = "
 SELECT 
-    p.id_pacientes,
+    m.id_medicos,
     u.id_usuarios,
     u.nombre_completo,
     u.correo,
     u.telefono,
-    u.activo AS estado_usuario
-FROM pacientes p
-INNER JOIN usuarios u ON p.usuario_id = u.id_usuarios
-WHERE u.rol_id = 3
+    u.direccion,
+    u.activo AS estado_usuario,
+    COALESCE(e.nombre, 'Sin especialidad') AS especialidad
+FROM medicos m
+INNER JOIN usuarios u ON m.usuario_id = u.id_usuarios
+LEFT JOIN especialidades e ON m.especialidad_id = e.id_especialidades
+WHERE u.rol_id = 2
 ORDER BY u.nombre_completo ASC;
 ";
 
@@ -28,7 +31,7 @@ $result = $conn->query($sql);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Pacientes</title>
+    <title>Lista de Médicos</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -46,10 +49,10 @@ $result = $conn->query($sql);
 
 <div class="content p-4">
 
-    <h3 class="text-primary"><i class="bi bi-people"></i> Lista de Pacientes</h3>
+    <h3 class="text-primary"><i class="bi bi-person-badge"></i> Lista de Médicos</h3>
 
-    <a href="registro_paciente.php" class="btn btn-primary mb-3">
-        <i class="bi bi-person-plus"></i> Registrar Paciente
+    <a href="registro_medico.php" class="btn btn-success mb-3">
+        <i class="bi bi-plus-circle"></i> Registrar Médico
     </a>
 
     <table class="table table-bordered table-hover">
@@ -59,7 +62,8 @@ $result = $conn->query($sql);
                 <th>Nombre</th>
                 <th>Correo</th>
                 <th>Teléfono</th>
-                <th>Rol</th>
+                <th>Dirección</th>
+                <th>Especialidad</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
@@ -67,17 +71,17 @@ $result = $conn->query($sql);
 
         <tbody>
             <?php if ($result->num_rows > 0): ?>
-                <?php $i = 1; while ($p = $result->fetch_assoc()): ?>
+                <?php $i = 1; while ($m = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?= $i++ ?></td>
-                    <td><?= htmlspecialchars($p['nombre_completo']) ?></td>
-                    <td><?= htmlspecialchars($p['correo']) ?></td>
-                    <td><?= htmlspecialchars($p['telefono']) ?></td>
-
-                    <td><span class="badge bg-info text-dark">Paciente</span></td>
+                    <td><?= htmlspecialchars($m['nombre_completo']) ?></td>
+                    <td><?= htmlspecialchars($m['correo']) ?></td>
+                    <td><?= htmlspecialchars($m['telefono']) ?></td>
+                    <td><?= htmlspecialchars($m['direccion']) ?></td>
+                    <td><?= htmlspecialchars($m['especialidad']) ?></td>
 
                     <td>
-                        <?php if ($p['estado_usuario'] == 1): ?>
+                        <?php if ($m['estado_usuario'] == 1): ?>
                             <span class="estado-activo">Activo</span>
                         <?php else: ?>
                             <span class="estado-inactivo">Inactivo</span>
@@ -85,21 +89,21 @@ $result = $conn->query($sql);
                     </td>
 
                     <td>
-                        <a href="datos_paciente.php?id=<?= $p['id_pacientes'] ?>" class="btn btn-secondary btn-sm">
-                            <i class="bi bi-eye"></i> Expediente
+                        <a href="ver_medico.php?id=<?= $m['id_medicos'] ?>" class="btn btn-info btn-sm">
+                            <i class="bi bi-eye"></i> Ver
                         </a>
 
-                        <a href="editar_paciente.php?id=<?= $p['id_pacientes'] ?>" class="btn btn-warning btn-sm">
+                        <a href="editar_medico.php?id=<?= $m['id_medicos'] ?>" class="btn btn-warning btn-sm">
                             <i class="bi bi-pencil-square"></i> Editar
                         </a>
 
-                        <?php if ($p['estado_usuario'] == 1): ?>
-                            <a href="activar_desactivar_paciente.php?id=<?= $p['id_pacientes'] ?>" 
-                               onclick="return confirm('¿Desactivar paciente?')"
+                        <?php if ($m['estado_usuario'] == 1): ?>
+                            <a href="activar_desactivar_medico.php?id=<?= $m['id_medicos'] ?>"
+                               onclick="return confirm('¿Desactivar médico?')"
                                class="btn btn-danger btn-sm"><i class="bi bi-x-circle"></i> Desactivar</a>
                         <?php else: ?>
-                            <a href="activar_desactivar_paciente.php?id=<?= $p['id_pacientes'] ?>" 
-                               onclick="return confirm('¿Activar paciente?')"
+                            <a href="activar_desactivar_medico.php?id=<?= $m['id_medicos'] ?>"
+                               onclick="return confirm('¿Activar médico?')"
                                class="btn btn-success btn-sm"><i class="bi bi-check-circle"></i> Activar</a>
                         <?php endif; ?>
                     </td>
