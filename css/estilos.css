@@ -128,3 +128,18 @@ body {
     padding-top: 70px;
   }
 }
+
+
+form.bg-white.rounded label {
+    font-size: 14px;
+    color: #003366;
+}
+
+form.bg-white.rounded {
+    border-left: 4px solid #0066cc;
+}
+
+form.bg-white.rounded .form-control,
+form.bg-white.rounded .form-select {
+    border-radius: 6px;
+}

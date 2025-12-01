@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 07-06-2025 a las 09:15:31
+-- Tiempo de generación: 01-12-2025 a las 07:32:37
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.1.10
 
@@ -68,6 +68,13 @@ CREATE TABLE `citas` (
   `activo` tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Volcado de datos para la tabla `citas`
+--
+
+INSERT INTO `citas` (`id_citas`, `paciente_id`, `medico_id`, `fecha`, `estado_id`, `motivo`, `es_urgente`, `fecha_creacion`, `activo`) VALUES
+(1, 1, 1, '2025-12-02 21:46:00', 3, 'Tos fuerte y fiebre por 48 horas.', 0, '2025-11-30 21:47:09', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -108,6 +115,15 @@ CREATE TABLE `especialidades` (
   `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Volcado de datos para la tabla `especialidades`
+--
+
+INSERT INTO `especialidades` (`id_especialidades`, `nombre`) VALUES
+(3, 'Cardiología'),
+(2, 'Dermatología'),
+(1, 'Pediatría');
+
 -- --------------------------------------------------------
 
 --
@@ -118,6 +134,17 @@ CREATE TABLE `estado_cita` (
   `id_estado_cita` int NOT NULL,
   `descripcion` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `estado_cita`
+--
+
+INSERT INTO `estado_cita` (`id_estado_cita`, `descripcion`) VALUES
+(5, 'Cancelada'),
+(2, 'Confirmada'),
+(3, 'En consulta'),
+(4, 'Finalizada'),
+(1, 'Pendiente');
 
 -- --------------------------------------------------------
 
@@ -158,9 +185,22 @@ CREATE TABLE `historial_medico` (
 CREATE TABLE `medicos` (
   `id_medicos` int NOT NULL,
   `usuario_id` int NOT NULL,
-  `especialidad_id` int NOT NULL,
-  `activo` tinyint(1) DEFAULT '1'
+  `especialidad_id` int DEFAULT NULL,
+  `activo` tinyint(1) DEFAULT '1',
+  `junta_medica` varchar(50) DEFAULT NULL,
+  `experiencia_anios` int DEFAULT NULL,
+  `consultorio` varchar(100) DEFAULT NULL,
+  `horario_atencion` varchar(150) DEFAULT NULL,
+  `biografia` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `medicos`
+--
+
+INSERT INTO `medicos` (`id_medicos`, `usuario_id`, `especialidad_id`, `activo`, `junta_medica`, `experiencia_anios`, `consultorio`, `horario_atencion`, `biografia`) VALUES
+(1, 14, 1, 1, 'JM-05234', 12, 'Clínica Familiar San Benito, Local B', 'Lunes a Viernes 8:00 AM – 4:00 PM', 'Médico general graduado de la Universidad de El Salvador. Experiencia en consulta externa, manejo de pacientes crónicos, control prenatal y atención pediátrica. Actualmente brinda atención en consultorio privado y programas de salud comunitaria.'),
+(2, 8, 3, 1, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -219,7 +259,14 @@ INSERT INTO `multifactor_tokens` (`id_multifactor_tokens`, `usuario_id`, `token`
 (36, 10, '461586', '2025-06-03 10:56:04', 1),
 (37, 2, '247504', '2025-06-03 18:37:30', 1),
 (38, 2, '445912', '2025-06-03 18:43:42', 1),
-(39, 2, '941688', '2025-06-03 18:49:35', 1);
+(39, 2, '941688', '2025-06-03 18:49:35', 1),
+(40, 2, '687847', '2025-06-07 03:58:20', 0),
+(41, 14, '187044', '2025-06-07 04:05:06', 0),
+(42, 2, '634180', '2025-06-07 04:15:53', 1),
+(43, 2, '716452', '2025-11-07 20:03:10', 1),
+(44, 2, '337627', '2025-11-07 20:03:14', 0),
+(45, 2, '916812', '2025-11-08 20:13:13', 1),
+(46, 2, '301853', '2025-11-18 20:47:37', 1);
 
 -- --------------------------------------------------------
 
@@ -258,9 +305,9 @@ CREATE TABLE `pacientes` (
 INSERT INTO `pacientes` (`id_pacientes`, `usuario_id`, `fecha_nacimiento`, `grupo_sanguineo`, `activo`) VALUES
 (1, 3, '2001-12-30', 'A+', 1),
 (5, 7, '2018-01-01', 'O+', 1),
-(6, 8, NULL, NULL, 1),
-(7, 9, NULL, NULL, 1),
-(8, 11, '2025-06-03', 'AB+', 0);
+(6, 8, NULL, NULL, 0),
+(8, 11, '2025-06-03', 'AB+', 1),
+(9, 14, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -321,11 +368,11 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id_usuarios`, `nombre_completo`, `correo`, `telefono`, `direccion`, `password`, `rol_id`, `activo`, `fecha_registro`) VALUES
 (2, 'Kevin Edgardo Sánchez Martínez', 'kevinedgardosanchezmartinez@gmail.com', '71234561', 'km13', '$2y$10$O3lmGAsme/EyBXLt1YAKW.dqoZiIaB3Eaq7sjVqzhTZR6EOWRxhgi', 1, 1, '2025-05-18 22:26:27'),
 (3, 'Christopher Enrique López Castro', 'chrispherenrique111@gmail.com', '12345678', '25 de noviembre UPES', '$2y$10$kwexaneB5Z40vVvfMdsYS.1jywQ4JL.jzJ1i9IuFXx7NQw0ZBwtEu', 3, 1, '2025-05-18 23:15:33'),
-(7, 'Juan José Quintanilla Vanegas', 'chrispherenrique@gmail.com', '71234569', 'km12', '$2y$10$nM4tYQb.FlT0cN0TsLOMI.rGQ0ojAlcm7yILOhBPljZ1f8UqTy0sa', 3, 1, '2025-06-01 21:20:10'),
-(8, 'Pedro Tomas Gonzalez Bonilla', 'pedrogonzalez@gmail.com', '71234569', 'km 90', '$2y$10$QLA2c.aQTMTpswcXojlFOevvsfF4W06K3a8NsWy31.xqdmN84iqRG', 3, 1, '2025-06-03 09:10:34'),
-(9, 'Bartolomeo Simeon Cañas Santamaria', 'simeon@gmail.com', '71234569', 'km 7953', '$2y$10$AuMq1DqomzZiGpKNderniOIzdbbHcyK6ZM5KQlamVcHXsgprTOjpi', 3, 0, '2025-06-03 10:52:20'),
+(7, 'Juan José Quintanilla Vanegas', 'juanquintanilla@gmail.com', '71234569', 'km12', '$2y$10$nM4tYQb.FlT0cN0TsLOMI.rGQ0ojAlcm7yILOhBPljZ1f8UqTy0sa', 3, 1, '2025-06-01 21:20:10'),
+(8, 'Pedro Tomas Gonzalez Bonilla', 'pedrogonzalez@gmail.com', '71234569', 'km 90', '$2y$10$QLA2c.aQTMTpswcXojlFOevvsfF4W06K3a8NsWy31.xqdmN84iqRG', 2, 1, '2025-06-03 09:10:34'),
 (10, 'kevin sanchez', 'kevinedgardosanchezmartinez12@gmail.com', '71234569', 'km 41', '$2y$10$qmFnbVNf8/XEReqVRjfg4.mbcYP8mxYmXpZGlfjle7fhXht/Ght06', 1, 0, '2025-06-03 10:55:57'),
-(11, 'Kevin Adonay Molina Gonzalez', 'kevinmolina252627@gmail.com', '71234569', 'km 689', '$2y$10$qzsDi3NfiTMp4YQTSCMNKejCPHe8lpWpZgO.Nt7SvCKo39LXQZ9Vi', 3, 0, '2025-06-03 18:52:09');
+(11, 'Kevin Adonay Molina Gonzalez', 'kevinmolina252627@gmail.com', '71234569', 'km 689', '$2y$10$qzsDi3NfiTMp4YQTSCMNKejCPHe8lpWpZgO.Nt7SvCKo39LXQZ9Vi', 3, 1, '2025-06-03 18:52:09'),
+(14, 'kevinE', 'kevinedgardosanchezmartinez123@gmail.com', '12345678', 'km12', '$2y$10$Fo6i7nSNtMTpos7zalBrM.iVrKJFTcmdIh9dcr9kScwET.Z8x0.IC', 2, 1, '2025-06-07 04:04:51');
 
 --
 -- Índices para tablas volcadas
@@ -469,7 +516,7 @@ ALTER TABLE `cancelaciones`
 -- AUTO_INCREMENT de la tabla `citas`
 --
 ALTER TABLE `citas`
-  MODIFY `id_citas` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_citas` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `configuraciones`
@@ -487,13 +534,13 @@ ALTER TABLE `documentos_medicos`
 -- AUTO_INCREMENT de la tabla `especialidades`
 --
 ALTER TABLE `especialidades`
-  MODIFY `id_especialidades` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_especialidades` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `estado_cita`
 --
 ALTER TABLE `estado_cita`
-  MODIFY `id_estado_cita` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_estado_cita` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `examenes`
@@ -511,13 +558,13 @@ ALTER TABLE `historial_medico`
 -- AUTO_INCREMENT de la tabla `medicos`
 --
 ALTER TABLE `medicos`
-  MODIFY `id_medicos` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_medicos` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `multifactor_tokens`
 --
 ALTER TABLE `multifactor_tokens`
-  MODIFY `id_multifactor_tokens` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_multifactor_tokens` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de la tabla `notificaciones`
@@ -529,7 +576,7 @@ ALTER TABLE `notificaciones`
 -- AUTO_INCREMENT de la tabla `pacientes`
 --
 ALTER TABLE `pacientes`
-  MODIFY `id_pacientes` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_pacientes` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `recetas_medicas`
@@ -547,7 +594,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuarios` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_usuarios` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas

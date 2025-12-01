@@ -16,8 +16,8 @@ if (session_status() === PHP_SESSION_NONE) {
   <a href="/citaMedicas/dashboard.php"><i class="bi bi-speedometer2"></i> Tablero</a>
   <a href="/citaMedicas/medicos/lista_medicos.php"><i class="bi bi-person-badge"></i> Médicos</a>
   <a href="/citaMedicas/paciente/lista_pacientes.php"><i class="bi bi-person-plus-fill"></i> Paciente</a>
-  <a href="#"><i class="bi bi-calendar-check"></i> Citas</a>
-  <a href="#"><i class="bi bi-file-earmark-text"></i> Reportes</a>
+  <a href="/citaMedicas/citas/lista_citas.php"><i class="bi bi-calendar-check"></i> Citas</a>
+  <a href="/citaMedicas/reportes/reporte_citas_medico.php"><i class="bi bi-file-earmark-text"></i> Reportes</a>
   <a href="/citaMedicas/registro/lista_usuarios.php"><i class="bi bi-person-plus"></i> Registro</a>
 
   <a href="/citaMedicas/usuarios/editar_perfil.php"><i class="bi bi-person-gear"></i> Editar perfil</a>
